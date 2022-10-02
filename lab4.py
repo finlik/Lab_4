@@ -2,29 +2,30 @@ count = int(input('Введите количество сотрудников: '
 distance = list(map(int, input('Введите расстояние в километрах, используя пробел: ').split()))
 taxi = list(map(int, input('Введите тарифы за проезд одного километра, используя пробел: ').split())) 
 
-sorted_distance = sorted(distance)
-sorted_taxi = sorted(taxi, reverse=True)
+sorted_distance = sorted(distance) #Создаем сортированный список, не изменяя предыдущий (сортировка от меньшего к большему). Он понадобится для нахождения суммы
+sorted_taxi = sorted(taxi, reverse=True) #Сортировка от большего к меньшему
 
-for i in range(count):
+for i in range(count): #Заполняем массивы
     distance[i] = (distance[i], i + 1)
 for i in range(count):
     taxi[i] = (-taxi[i], i + 1) 
 
-distance.sort()
+distance.sort() #Сортируем изначальный список
 taxi.sort()
 
-number = [0] * (count + 1) 
-for i in range(count): 
+number = [0] * (count + 1) #Создаёт список из count+1 элементов
+for i in range(count): #Заполняем его
     number[distance[i][1]] = taxi[i][1] 
-for i in range(1, count + 1):
-    print(number[i], end=' ')
+for i in range(1, count + 1): #Соотносим наименьшее число с наибольшим
+    print(number[i], end=' ') #Выводим на экран до конечного элемета count+1
 print('')
 
-a = 0
+a = 0 #Ищем сумму
 for i in range(count):
     a = a + sorted_distance[i] * sorted_taxi[i]
-
-u = a % 10
+    
+#По последней цифре числа находим название валюты в правильном падеже
+u = a % 10 
 if u == 1:
     print('Суммарные затраты на такси составляют', a, 'рубль')
 elif 2 <= u <= 4:
@@ -40,25 +41,25 @@ hundred = ['сто', 'двести', 'триста', 'четыреста', 'пя
 thousand = ['тысяча', 'тысячи', 'тысяч']
 
 if a > 0:
-
+#Разбиваем число на 4 разряда: тысячи, сотни, десятки, единицы
     a1 = a // 1000
     a2 = (a // 100) % 10
     a3 = (a // 10) % 10
     a4 = a % 10
 
     print('Суммарные затраты на такси составляют', end=' ')
-    
-    if a1 != 0: 
+    #Следующие 4 оператора if определяют в каких позициях стоят числа
+    if a1 != 0:  #Работаем с тысячным разрядом
         b = a1
-        
-        if len(str(b)) == 3:
+        #Смотрим количество цифр в тысячном разряде, чтобы правильно определить название числа
+        if len(str(b)) == 3: 
             
             k1 = b // 100
             k2 = (b // 10) % 10
             k3 = b % 10
         
-            if (1 <= k1 <= 9) and (k2 == 0) and (k3 == 0):
-                call1 = hundred[k1-1] + ' ' + thousand[2] 
+            if (1 <= k1 <= 9) and (k2 == 0) and (k3 == 0): #Функция опредляет какое нужно название
+                call1 = hundred[k1-1] + ' ' + thousand[2] #Вызов из массивов нужное название
 
             elif (1 <= k1 <= 9) and (k2 != 0) and (k3 == 0):
                 call1 = hundred[k1-1] + ' ' + tens[k2-1] + ' ' + thousand[2]
@@ -116,7 +117,7 @@ if a > 0:
     else:
         call1 = ''
 
-    if a2 != 0:
+    if a2 != 0: #Работаем также с оставшимися разрядами
         b = a2
         call2 = hundred[b-1]
     else:
@@ -154,11 +155,3 @@ if a > 0:
         else:
             call5 = 'рубль'
         print (call1, call2, call3, call4, call5)
-        
-
-
-   
-        
-
-
-
